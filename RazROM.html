@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Galaxy S26 Ultra - One UI 8 Simulator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-radius: 48px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            border: 12px solid #111;
+        }
+        
+        /* Phone frame styling */
+        .phone-frame {
+            position: relative;
+            background: #000;
+            border-radius: 40px;
+            overflow: hidden;
+            height: 900px;
+        }
+        
+        .camera-cutout {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 36px;
+            background: #000;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 5px;
+        }
+        
+        .camera-dot {
+            width: 24px;
+            height: 24px;
+            background: #0a0a0f;
+            border-radius: 50%;
+            margin: 0 6px;
+            border: 1px solid #222;
+        }
+        
+        .sensor {
+            width: 90px;
+            height: 18px;
+            background: #0a0a0f;
+            border-radius: 9px;
+            margin: 0 10px;
+            border: 1px solid #222;
+        }
+        
+        /* Status bar */
+        .status-bar {
+            height: 36px;
+            background: rgba(10, 10, 15, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            position: relative;
+            z-index: 10;
+            margin-top: 36px;
+        }
+        
+        .time {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-icons i {
+            font-size: 12px;
+        }
+        
+        /* Home screen */
+        .home-screen {
+            height: calc(100% - 120px);
+            background: radial-gradient(circle at 50% 0%, #3a3a5d 0%, #0a0a1a 70%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wallpaper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(58, 58, 93, 0.7) 0%, rgba(10, 10, 26, 0.9) 100%), 
+                        url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDIwIiBoZWlnaHQ9IjkwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0icGF0dGVybiIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVHJhbnNmb3JtPSJyb3RhdGUoNDUpIj48cGF0aCBkPSJNIDAgMCBMIDAgNDAgTCA0MCA0MCBMIDQwIDAgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MjAiIGhlaWdodD0iOTAwIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+');
+            opacity: 0.6;
+        }
+        
+        .app-grid {
+            padding: 30px 24px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 18px;
+            padding: 12px 0;
+        }
+        
+        .app-icon:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .app-icon:active {
+            transform: scale(0.95);
+        }
+        
+        .app-icon div {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            font-size: 24px;
+        }
+        
+        .app-name {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Dock */
+        .dock {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 24px;
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            z-index: 2;
+        }
+        
+        .dock .app-icon {
+            padding: 8px;
+        }
+        
+        .dock .app-icon div {
+            width: 52px;
+            height: 52px;
+        }
+        
+        /* Add App Button */
+        .add-app {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            position: relative;
+        }
+        
+        .add-app::before {
+            content: "+";
+            font-size: 32px;
+            font-weight: 300;
+        }
+        
+        /* Navigation buttons */
+        .navigation {
+            position: absolute;
+            bottom: 120px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 5;
+        }
+        
+        .nav-btn {
+            width: 120px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            margin: 0 4px;
+            cursor: pointer;
+        }
+        
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Modal for adding apps */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #1e1e2e, #161625);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 24px;
+            background: rgba(40, 40, 60, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ccc;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(30, 30, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+        }
+        
+        textarea.form-control {
+            min-height: 200px;
+            resize: vertical;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.3);
+        }
+        
+        /* App window */
+        .app-window {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .app-window.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .app-header {
+            padding: 16px 20px;
+            background: rgba(30, 30, 40, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .app-title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .app-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .app-content {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .app-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        /* App colors */
+        .app-1 { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
+        .app-2 { background: linear-gradient(135deg, #38ef7d, #11998e); }
+        .app-3 { background: linear-gradient(135deg, #f7971e, #ffd200); }
+        .app-4 { background: linear-gradient(135deg, #7F7FD5, #86A8E7, #91EAE4); }
+        .app-5 { background: linear-gradient(135deg, #654ea3, #da98b4); }
+        .app-6 { background: linear-gradient(135deg, #3A6073, #16222A); }
+        .app-7 { background: linear-gradient(135deg, #000046, #1CB5E0); }
+        .app-8 { background: linear-gradient(135deg, #eb3349, #f45c43); }
+        .app-9 { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+        .app-10 { background: linear-gradient(135deg, #614385, #516395); }
+        
+        /* App drawer */
+        .app-drawer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            padding-top: 36px;
+            overflow-y: auto;
+            z-index: 5;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .app-drawer.active {
+            transform: translateY(0);
+        }
+        
+        .drawer-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .drawer-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            margin: 0 24px 24px;
+        }
+        
+        .search-box i {
+            color: #aaa;
+            margin-right: 12px;
+        }
+        
+        .search-box input {
+            background: none;
+            border: none;
+            color: white;
+            flex: 1;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .drawer-apps {
+            padding: 0 24px 24px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.4s ease;
+        }
+        
+        /* Responsive */
+        @media (max-height: 900px) {
+            .phone-frame {
+                height: 800px;
+            }
+            
+            .home-screen {
+                height: calc(100% - 100px);
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="phone-frame">
+            <!-- Camera cutout -->
+            <div class="camera-cutout">
+                <div class="camera-dot"></div>
+                <div class="sensor"></div>
+                <div class="camera-dot"></div>
+                <div class="camera-dot"></div>
+            </div>
+            
+            <!-- Status bar -->
+            <div class="status-bar">
+                <div class="time">9:41</div>
+                <div class="status-icons">
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-three-quarters"></i>
+                </div>
+            </div>
+            
+            <!-- Home screen -->
+            <div class="home-screen">
+                <div class="wallpaper"></div>
+                
+                <!-- App grid -->
+                <div class="app-grid">
+                    <!-- Default apps -->
+                    <div class="app-icon" data-app="phone">
+                        <div class="app-1"><i class="fas fa-phone"></i></div>
+                        <span class="app-name">Phone</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="messages">
+                        <div class="app-2"><i class="fas fa-comment-alt"></i></div>
+                        <span class="app-name">Messages</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="camera">
+                        <div class="app-3"><i class="fas fa-camera"></i></div>
+                        <span class="app-name">Camera</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="gallery">
+                        <div class="app-4"><i class="fas fa-images"></i></div>
+                        <span class="app-name">Gallery</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="chrome">
+                        <div class="app-5"><i class="fab fa-chrome"></i></div>
+                        <span class="app-name">Chrome</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="email">
+                        <div class="app-6"><i class="fas fa-envelope"></i></div>
+                        <span class="app-name">Email</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="calendar">
+                        <div class="app-7"><i class="fas fa-calendar-alt"></i></div>
+                        <span class="app-name">Calendar</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="maps">
+                        <div class="app-8"><i class="fas fa-map-marked-alt"></i></div>
+                        <span class="app-name">Maps</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="music">
+                        <div class="app-9"><i class="fas fa-music"></i></div>
+                        <span class="app-name">Music</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="weather">
+                        <div class="app-10"><i class="fas fa-cloud-sun"></i></div>
+                        <span class="app-name">Weather</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="calculator">
+                        <div class="app-1"><i class="fas fa-calculator"></i></div>
+                        <span class="app-name">Calculator</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="clock">
+                        <div class="app-2"><i class="fas fa-clock"></i></div>
+                        <span class="app-name">Clock</span>
+                    </div>
+                    
+                    <!-- User added apps will appear here -->
+                </div>
+                
+                <!-- Dock -->
+                <div class="dock">
+                    <div class="app-icon" id="phone-app">
+                        <div class="app-1"><i class="fas fa-phone"></i></div>
+                        <span class="app-name">Phone</span>
+                    </div>
+                    
+                    <div class="app-icon" id="messages-app">
+                        <div class="app-2"><i class="fas fa-comment-alt"></i></div>
+                        <span class="app-name">Messages</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="chrome">
+                        <div class="app-5"><i class="fab fa-chrome"></i></div>
+                        <span class="app-name">Chrome</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="email">
+                        <div class="app-6"><i class="fas fa-envelope"></i></div>
+                        <span class="app-name">Email</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="calendar">
+                        <div class="app-7"><i class="fas fa-calendar-alt"></i></div>
+                        <span class="app-name">Calendar</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="maps">
+                        <div class="app-8"><i class="fas fa-map-marked-alt"></i></div>
+                        <span class="app-name">Maps</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="music">
+                        <div class="app-9"><i class="fas fa-music"></i></div>
+                        <span class="app-name">Music</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="weather">
+                        <div class="app-10"><i class="fas fa-cloud-sun"></i></div>
+                        <span class="app-name">Weather</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="calculator">
+                        <div class="app-1"><i class="fas fa-calculator"></i></div>
+                        <span class="app-name">Calculator</span>
+                    </div>
+                    
+                    <div class="app-icon" data-app="clock">
+                        <div class="app-2"><i class="fas fa-clock"></i></div>
+                        <span class="app-name">Clock</span>
+                    </div>
+                    
+                    <!-- User added apps will appear here -->
+                </div>
+                
+                <!-- Dock -->
+                <div class="dock">
+                    <div class="app-icon" id="phone-app">
+                        <div class="app-1"><i class="fas fa-phone"></i></div>
+                        <span class="app-name">Phone</span>
+                    </div>
+                    
+                    <div class="app-icon" id="messages-app">
+                        <div class="app-2"><i class="fas fa-comment-alt"></i></div>
+                        <span class="app-name">Messages</span>
+                    </div>
+                    
+                    <div class="app-icon" id="chrome-app">
+                        <div class="app-5"><i class="fab fa-chrome"></i></div>
+                        <span class="app-name">Chrome</span>
+                    </div>
+                    
+                    <div class="app-icon" id="add-app-btn">
+                        <div class="add-app"></div>
+                        <span class="app-name">Add App</span>
+                    </div>
+                </div>
+                
+                <!-- Navigation buttons -->
+                <div class="navigation">
+                    <div class="nav-btn" id="nav-home"></div>
+                    <div class="nav-btn" id="nav-back"></div>
+                    <div class="nav-btn" id="nav-recent"></div>
+                </div>
+            </div>
+            
+            <!-- App drawer -->
+            <div class="app-drawer" id="app-drawer">
+                <div class="drawer-header">
+                    <h2>Apps</h2>
+                    <div class="close-drawer" id="close-drawer">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search apps">
+                </div>
+                
+                <div class="drawer-apps">
+                    <!-- Apps in drawer will be populated from JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for adding custom apps -->
+    <div class="modal" id="add-app-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Custom App</h2>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="app-form">
+                    <div class="form-group">
+                        <label for="app-name">App Name</label>
+                        <input type="text" id="app-name" class="form-control" placeholder="Enter app name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="app-color">App Color</label>
+                        <select id="app-color" class="form-control">
+                            <option value="app-1">Red Gradient</option>
+                            <option value="app-2">Green Gradient</option>
+                            <option value="app-3">Yellow Gradient</option>
+                            <option value="app-4">Purple Gradient</option>
+                            <option value="app-5">Pink Gradient</option>
+                            <option value="app-6">Dark Blue Gradient</option>
+                            <option value="app-7">Blue Gradient</option>
+                            <option value="app-8">Orange Gradient</option>
+                            <option value="app-9">Light Green Gradient</option>
+                            <option value="app-10">Violet Gradient</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="app-icon">App Icon (Font Awesome class)</label>
+                        <input type="text" id="app-icon" class="form-control" placeholder="fas fa-star" value="fas fa-code">
+                        <small>Example: fas fa-gamepad, fas fa-music, fas fa-camera</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="app-html">App HTML Content</label>
+                        <textarea id="app-html" class="form-control" placeholder="Enter HTML content for your app" rows="12">
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        button {
+            background: white;
+            color: #6a11cb;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <h1>My Custom App</h1>
+        <div class="card">
+            <h3>Welcome to your custom app!</h3>
+            <p>This is a sample app created with the One UI 8 simulator. You can edit the HTML to create your own applications.</p>
+            <p id="demo-text">Click the button below to see JavaScript in action.</p>
+            <button onclick="document.getElementById('demo-text').innerHTML = '🎉 Congratulations! You just ran custom JavaScript in your app!'">
+                Click Me!
+            </button>
+        </div>
+        <div class="card">
+            <h3>Custom App Features</h3>
+            <ul>
+                <li>Run any HTML/CSS/JS code</li>
+                <li>Full control over app appearance</li>
+                <li>Persistent storage across sessions</li>
+                <li>Integrates with One UI 8 interface</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+                        </textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add App to Home Screen</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- App window for running custom apps -->
+    <div class="app-window" id="app-window">
+        <div class="app-header">
+            <div class="app-title" id="app-window-title">Custom App</div>
+            <button class="app-close" id="close-app-window">&times;</button>
+        </div>
+        <div class="app-content">
+            <iframe class="app-frame" id="app-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const addAppModal = document.getElementById('add-app-modal');
+        const appWindow = document.getElementById('app-window');
+        const appFrame = document.getElementById('app-frame');
+        const appForm = document.getElementById('app-form');
+        const addAppBtn = document.getElementById('add-app-btn');
+        const closeModalBtn = document.getElementById('close-modal');
+        const closeAppWindowBtn = document.getElementById('close-app-window');
+        const appGrid = document.querySelector('.app-grid');
+        const appDrawer = document.getElementById('app-drawer');
+        const closeDrawerBtn = document.getElementById('close-drawer');
+        const drawerAppsContainer = document.querySelector('.drawer-apps');
+        const navHome = document.getElementById('nav-home');
+        const navBack = document.getElementById('nav-back');
+        const navRecent = document.getElementById('nav-recent');
+        const timeDisplay = document.querySelector('.time');
+        
+        // Initialize apps from localStorage or with default
+        let userApps = JSON.parse(localStorage.getItem('oneui-user-apps')) || [];
+        let appCounter = userApps.length;
+        
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeDisplay.textContent = `${hours}:${minutes}`;
+        }
+        
+        // Update time every minute
+        updateTime();
+        setInterval(updateTime, 60000);
+        
+        // Initialize app drawer with all apps
+        function initializeAppDrawer() {
+            // Clear drawer
+            drawerAppsContainer.innerHTML = '';
+            
+            // Default apps for drawer
+            const defaultDrawerApps = [
+                { name: 'Phone', icon: 'fas fa-phone', color: 'app-1' },
+                { name: 'Messages', icon: 'fas fa-comment-alt', color: 'app-2' },
+                { name: 'Camera', icon: 'fas fa-camera', color: 'app-3' },
+                { name: 'Gallery', icon: 'fas fa-images', color: 'app-4' },
+                { name: 'Chrome', icon: 'fab fa-chrome', color: 'app-5' },
+                { name: 'Email', icon: 'fas fa-envelope', color: 'app-6' },
+                { name: 'Calendar', icon: 'fas fa-calendar-alt', color: 'app-7' },
+                { name: 'Maps', icon: 'fas fa-map-marked-alt', color: 'app-8' },
+                { name: 'Music', icon: 'fas fa-music', color: 'app-9' },
+                { name: 'Weather', icon: 'fas fa-cloud-sun', color: 'app-10' },
+                { name: 'Calculator', icon: 'fas fa-calculator', color: 'app-1' },
+                { name: 'Clock', icon: 'fas fa-clock', color: 'app-2' },
+                { name: 'Settings', icon: 'fas fa-cog', color: 'app-3' },
+                { name: 'Files', icon: 'fas fa-folder', color: 'app-4' },
+                { name: 'Contacts', icon: 'fas fa-address-book', color: 'app-5' },
+                { name: 'Notes', icon: 'fas fa-sticky-note', color: 'app-6' },
+                { name: 'Voice Recorder', icon: 'fas fa-microphone', color: 'app-7' },
+                { name: 'Samsung Health', icon: 'fas fa-heartbeat', color: 'app-8' },
+                { name: 'Samsung Pay', icon: 'fas fa-credit-card', color: 'app-9' },
+                { name: 'Game Launcher', icon: 'fas fa-gamepad', color: 'app-10' },
+                { name: 'SmartThings', icon: 'fas fa-home', color: 'app-1' },
+                { name: 'Bixby', icon: 'fas fa-robot', color: 'app-2' }
+            ];
+            
+            // Add user apps to drawer
+            const allApps = [...defaultDrawerApps, ...userApps];
+            
+            // Populate drawer
+            allApps.forEach(app => {
+                const appElement = document.createElement('div');
+                appElement.className = 'app-icon';
+                appElement.innerHTML = `
+                    <div class="${app.color}"><i class="${app.icon}"></i></div>
+                    <span class="app-name">${app.name}</span>
+                `;
+                
+                // Add click handler for drawer apps
+                appElement.addEventListener('click', () => {
+                    if (userApps.includes(app)) {
+                        // It's a user app, run it
+                        runApp(app);
+                    } else {
+                        // It's a default app, show a message
+                        showDefaultAppMessage(app.name);
+                    }
+                });
+                
+                drawerAppsContainer.appendChild(appElement);
+            });
+        }
+        
+        // Show message for default apps
+        function showDefaultAppMessage(appName) {
+            alert(`This is a demo. The "${appName}" app would open in a real One UI 8 device.`);
+        }
+        
+        // Load user apps to home screen
+        function loadUserApps() {
+            // Clear any existing user apps from the grid (keep first 12 default apps)
+            const defaultApps = Array.from(appGrid.children).slice(0, 12);
+            appGrid.innerHTML = '';
+            defaultApps.forEach(app => appGrid.appendChild(app));
+            
+            // Add user apps to the grid
+            userApps.forEach(app => {
+                const appElement = document.createElement('div');
+                appElement.className = 'app-icon user-app';
+                appElement.dataset.appId = app.id;
+                appElement.innerHTML = `
+                    <div class="${app.color}"><i class="${app.icon}"></i></div>
+                    <span class="app-name">${app.name}</span>
+                `;
+                
+                // Add click handler
+                appElement.addEventListener('click', () => runApp(app));
+                
+                // Add to grid before the last position (to keep empty spots)
+                appGrid.appendChild(appElement);
+            });
+            
+            // Update app drawer
+            initializeAppDrawer();
+        }
+        
+        // Run a custom app
+        function runApp(app) {
+            document.getElementById('app-window-title').textContent = app.name;
+            
+            // Prepare HTML content
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+                            margin: 0;
+                            padding: 20px;
+                            background: #f5f5f7;
+                            color: #333;
+                            min-height: 100vh;
+                        }
+                        .app-header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            padding-bottom: 20px;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        .app-header h1 {
+                            color: #333;
+                            margin-bottom: 10px;
+                        }
+                        .app-content {
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                    </style>
+                    ${app.customCss || ''}
+                </head>
+                <body>
+                    <div class="app-header">
+                        <h1>${app.name}</h1>
+                        <p>Custom App Running in One UI 8 Simulator</p>
+                    </div>
+                    <div class="app-content">
+                        ${app.html}
+                    </div>
+                    <script>
+                        ${app.customJs || ''}
+                        // Prevent the iframe from redirecting the parent
+                        document.addEventListener('click', function(e) {
+                            if (e.target.tagName === 'A' && e.target.href) {
+                                e.preventDefault();
+                                alert('External links are disabled in the simulator. In a real app, this would open: ' + e.target.href);
+                            }
+                        });
+                    <\/script>
+                </body>
+                </html>
